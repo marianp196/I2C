@@ -48,10 +48,11 @@ public class BusI2C implements IBusI2C{
          if(! response.isSuccessful())
             throw new Exception(response.message());
          
-         if(response.body().string() == null || response.body().string() == "")
+         String body = response.body().string();
+         if(body == null || body == "")
              throw new Exception("no content");
         
-        I2CDto dto = new ObjectMapper().readValue(response.body().string(), I2CDto.class);
+        I2CDto dto = new ObjectMapper().readValue(body , I2CDto.class);
         return dto.value;
     }
 
@@ -64,9 +65,9 @@ public class BusI2C implements IBusI2C{
          Request request = new Request.Builder()
         .url(url)
         .get()
-        .addHeader("Content-Type", "application/json")
+        //.addHeader("Content-Type", "application/json")
         .addHeader("Accept", "application/json")
-        .addHeader("Cache-Control", "no-cache")
+        //.addHeader("Cache-Control", "no-cache")
         .build();
 
         return request;
@@ -93,8 +94,9 @@ public class BusI2C implements IBusI2C{
         if(!result.endsWith("/"))
             result+= "/";
         
-        return result + "device/" + String.valueOf(device) 
-                + "/regsiter/" + String.valueOf(register);
+        result = result + "i2c/device/" + String.valueOf(device) 
+                + "/register/" + String.valueOf(register);
+        return result;
     }
     
     
