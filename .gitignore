@@ -14,3 +14,5 @@ nbdist/
 /WebApplication1/nbproject/private/
 /Component.Web2/target/
 /I2C.Abstractions/target/
+/I2C.Raspberry/target/
+/I2C.HTTP/target/

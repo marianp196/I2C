@@ -7,6 +7,7 @@ package I2CBus;
 
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
+import java.io.IOException;
 import java.util.Collection;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -24,14 +25,24 @@ public class BusI2C implements IBusI2C{
     public synchronized void  Write(int device, int register, byte value) throws Exception {
         I2CDevice deviceInstance = _internBus.getDevice(device);
         
-        deviceInstance.write(register, value);
+        try{
+             deviceInstance.write(register, value);
+        }catch(IOException ex){ // so richtig gut nicht
+            throw new DeviceNotFoundException();
+        }
+       
     }
 
     @Override
     public synchronized byte Read(int device, int register) throws Exception {
         I2CDevice deviceInstance = _internBus.getDevice(device);
         
-        return (byte)deviceInstance.read(register);
+        try{
+             return (byte)deviceInstance.read(register);
+        }catch(IOException ex){ //Do richtig gut nicht
+            throw new DeviceNotFoundException();
+        }
+        
     }
 
     @Override
